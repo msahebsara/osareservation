@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.ico">
+
+	<title>OSA Graduation Banquet 2017 - Seat Reservation</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<meta name="viewport" content="width=device-width" />
+
+	<!--     Fonts and icons     -->
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+	<!-- CSS Files -->
+	<link href="assets/css/styles.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+	<div class="image-container set-full-height" style="background-image: url('assets/img/wiz2.jpg')" id="app">
+		<!--   Big container   -->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<!--      Wizard container        -->
+					<div class="wizard-container">
+						<div class="card wizard-card" data-color="blue" id="wizardProfile">
+							<form action="" method="">
+
+								<div class="wizard-header">
+									<h3 class="wizard-title">
+										Reserve Banquet Tickets
+									</h3>
+									<h5>Choose your seat(s) for the Shaw Conference Centre, June 29 @ 6PM</h5>
+								</div>
+								<div class="wizard-navigation">
+									<ul>
+										<li><a href="#info" data-toggle="tab">Your Info</a></li>
+										<li><a href="#guests" data-toggle="tab">Guests</a></li>
+										<li><a href="#seats" data-toggle="tab">Seats</a></li>
+										<li><a href="#summary" data-toggle="tab">Summary</a></li>
+									</ul>
+								</div>
+
+								<div class="tab-content">
+									<div class="tab-pane" id="info">
+										<div class="row">
+											<h4 class="info-text"> Enter graduating student information:</h4>
+
+											<div class="col-sm-6 col-sm-offset-3">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">face</i>
+													</span>
+													<div class="form-group label-floating">
+														<label class="control-label">First Name <small>(required)</small></label>
+														<input name="firstname" type="text" class="form-control" v-model="firstname">
+													</div>
+												</div>
+
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">face</i>
+													</span>
+													<div class="form-group label-floating">
+														<label class="control-label">Last Name <small>(required)</small></label>
+														<input name="lastname" type="text" class="form-control" v-model="lastname">
+													</div>
+												</div>
+
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">face</i>
+													</span>
+													<div class="form-group label-floating">
+														<label class="control-label">Preferred Name <small>(optional)</small></label>
+														<input name="preferred" type="text" class="form-control" v-model="preferred">
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+									<div class="tab-pane" id="guests">
+										<h4 class="info-text"> Alright {{ getName() }}, let's add your guest(s)!</h4>
+										<div class="row">
+
+											<div class="col-sm-10 col-sm-offset-1">
+												<h2>Guests <a class="btn btn-small btn-info" @click="toggleModal()"><i class="fa fa-plus"></i> Add A Guest</a>
+												</h2>
+												<table class="table " v-if="guests.length > 0">
+													<thead>
+														<th>First Name</th>
+														<th>Last Name</th>
+														<th>Actions</th>
+													</thead>
+													<tbody>
+														<tr v-for="(guest, index) in guests">
+															<td>{{ guest.firstname }}</td>
+															<td>{{ guest.lastname }}</td>
+															<td><a href="#" @click="removeGuest(index)"><i class="fa fa-remove"></i> Remove</a></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+
+												<!-- Modal -->
+												<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" aria-label="Close" @click="toggleModal()"><span aria-hidden="true">&times;</span></button>
+																<h4 class="modal-title" id="myModalLabel">Add Guest Information</h4>
+															</div>
+															<div class="modal-body">
+																<div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="material-icons">face</i>
+																	</span>
+																	<div class="form-group label-floating">
+																		<label class="control-label">Guest First Name</label>
+																		<input name="guestfirst" type="text" class="form-control" v-model="guestfirst">
+																	</div>
+																</div>
+
+																<div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="material-icons">face</i>
+																	</span>
+																	<div class="form-group label-floating">
+																		<label class="control-label">Guest Last Name</label>
+																		<input name="guestlast" type="text" class="form-control" v-model="guestlast">
+																	</div>
+																</div>
+
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-success" @click="addGuest(guestfirst, guestlast)">Add Guest</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+
+									<div class="tab-pane" id="seats">
+										<h4 class="info-text">Choose seats for you and your guest(s)!</h4>
+
+										<div class="row">
+											<div class="col-sm-12">
+												<h2>1) Click to View Seating Chart</h2>
+												<a href="#" class="image-seating" @click="showImageModal()"><img class="img img-responsive responsive image-seating"
+													 src="assets/img/seating.png" alt=""></a>
+											</div>
+										</div>
+
+										<hr>
+
+										<div class="row">
+											<div class="col-sm-12">
+												<h2 class="display-in">2) Choose Your Seats</h2>
+												<div id="legend" class="pull-right"></div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-12 parent-centered">
+												<div id="seat-map" class="child-centered"></div>
+											</div>
+										</div>
+
+									</div>
+
+
+
+									<div class="tab-pane" id="summary">
+										<h4 class="info-text">Please make any necessary changes now, seating cannot be changed once submitted!</h4>
+										<div class="row">
+											<div class="col-sm-10 col-sm-offset-1">
+												<table class="table table-bordered table-striped">
+													<thead>
+														<th>First Name</th>
+														<th>Last Name</th>
+														<th>Seat</th>
+													</thead>
+													<tbody>
+														<tr>
+															<td v-if="firstname">{{ firstname }}</td>
+															<td v-if="firstname">{{ lastname }}</td>
+															<td v-if="seats.length > 0">
+																{{ seats[0].split('_')[0] }}, Seat {{ seats[0].split('_')[1] }}
+															</td>
+														</tr>
+														<div v-if="guests.length  > 0">
+															<tr v-for="(guest, index) in guests">
+																<td>{{ guest.firstname }}</td>
+																<td>{{ guest.lastname }}</td>
+																<td><span v-if="seats[index+1]">{{ seats[index+1*1].split('_')[0] }}, Seat {{
+																		seats[index+1*1].split('_')[1] }}</span></td>
+															</tr>
+														</div>
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+								<div class="wizard-footer">
+									<div class="pull-right">
+										<input type='button' class='btn btn-next btn-next btn-fill btn-info btn-wd' name='next' value='Next' />
+										<input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Finish' @click="submitSeats" />
+									</div>
+
+									<div class="pull-left">
+										<input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</form>
+						</div>
+					</div> <!-- wizard container -->
+				</div>
+			</div><!-- end row -->
+		</div> <!--  big container -->
+
+
+		<!-- Success Modal -->
+		<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Success!</h4>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<i class="fa fa-check-circle fa-5x" style="color: green;"></i>
+							<hr>
+							You have successfully reserved seats for your graduation banquet.
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Reservation Modal -->
+		<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Table Reservations</h4>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<ul class="list-group" v-if="mappings.length > 0">
+								<li class="list-group-item" v-for="mapping in mappings">{{ mapping }}</li>
+							</ul>
+							<span v-if="mappings.length <= 0">No reservations for this table yet.</span>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Image Modal -->
+		<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Seating Chart</h4>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<img src="assets/img/seating.png" alt="">
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="container text-center">
+				Built for the Graduating Class of 2017 by Mehrshad S.
+			</div>
+		</div>
+	</div>
+
+</body>
+<!--   Vendor JS Files   -->
+<script src="assets/js/vendor.js"></script>
+<script src="assets/js/material.js"></script>
+
+</html>
