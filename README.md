@@ -8,7 +8,7 @@ The application also features a password-protected admin panel so that the Stude
 
 ## Technologies Used
 This application was made using Vue.js and Firebase. As this application was being hosted on a static server, the entire codebase is client side (excluding the admin panel which is a simple PHP script that was hosted externally). 
-Validation is being done on the front-end to ensure that two users don't reserve the same seats, as well as validation for correct number of seats against the number in the Firebase database, and valid values for name, 
+Validation is being done on the front-end to ensure that two users don't reserve the same seats, as well as validation for correct number of seats against the number in the Firebase database, and valid values for name. 
 
 ## Usage
 - Setup Firebase config details in material.js and admin.js
